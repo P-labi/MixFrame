@@ -8,6 +8,9 @@ obj/
 dist/
 *.zip
 
+# Private product planning
+PRD.md
+
 # Local third-party runtime bundles
 ffmpeg-*-essentials_build/
 
