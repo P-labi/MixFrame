@@ -42,4 +42,10 @@ New-Item -ItemType Directory -Path $distribution -Force | Out-Null
 Copy-Item -Path (Join-Path $releaseOutput "*") -Destination $distribution -Recurse -Force
 Copy-Item -LiteralPath $ffmpegSource -Destination (Join-Path $distribution "ffmpeg-8.1.2-essentials_build") -Recurse -Force
 
+$keptCultures = @("zh-CN", "en-us")
+$cultureDirectoryPattern = "^[a-z]{2,3}(-[A-Za-z0-9]{2,8}){1,2}$"
+Get-ChildItem -LiteralPath $distribution -Directory |
+    Where-Object { $_.Name -match $cultureDirectoryPattern -and $_.Name -notin $keptCultures } |
+    Remove-Item -Recurse -Force
+
 Write-Host "MixFrame distribution created at: $distribution"
