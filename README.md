@@ -43,4 +43,4 @@ dist\MixFrame-win-x64.zip
 
 ## License
 
-No open-source license has been selected yet. Until a license is added, all rights are reserved by default.
+MixFrame is released under the MIT License. See [LICENSE](LICENSE).
