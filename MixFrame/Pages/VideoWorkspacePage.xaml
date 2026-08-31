@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="MixFrame.Pages.VideoWorkspacePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Key="O" Modifiers="Control" Invoked="OnOpenAcceleratorInvoked" />
+        <KeyboardAccelerator Key="A" Modifiers="Control" Invoked="OnSelectAllAcceleratorInvoked" />
+        <KeyboardAccelerator Key="Delete" Invoked="OnDeleteAcceleratorInvoked" />
+        <KeyboardAccelerator Key="Z" Modifiers="Control" Invoked="OnUndoAcceleratorInvoked" />
+    </Page.KeyboardAccelerators>
+    <Grid x:Name="PageRoot" Padding="{StaticResource PagePadding}" Background="Transparent" AllowDrop="True" DragOver="OnDragOver" Drop="OnDrop" SizeChanged="OnPageSizeChanged" Unloaded="OnPageUnloaded">
+        <Grid x:Name="WorkspaceGrid" ColumnSpacing="12" RowSpacing="12">
+            <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions><ColumnDefinition x:Name="MainColumn" Width="*" /><ColumnDefinition x:Name="SettingsColumn" Width="340" /></Grid.ColumnDefinitions>
+            <Grid x:Name="AssetSurface" Background="Transparent" BorderThickness="0" CornerRadius="12" AllowDrop="True" DragOver="OnDragOver" Drop="OnDrop">
+                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                <Border x:Name="ImportPanel" Margin="6" Style="{StaticResource DropZoneStyle}"><StackPanel Orientation="Horizontal" Spacing="8"><Button TabIndex="0" Content="选择视频" Click="OnImportFilesClick" /><Button TabIndex="1" Content="选择文件夹" Click="OnImportFolderClick" /><CheckBox x:Name="RecursiveCheckBox" TabIndex="2" VerticalAlignment="Center" Content="包含子文件夹" IsChecked="True" /></StackPanel></Border>
+                <Grid x:Name="SummaryPanel" Grid.Row="1" Padding="14,10" ColumnSpacing="18"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions><TextBlock x:Name="SelectionSummaryText" Text="已选择 0 / 0" /><TextBlock x:Name="TaskSummaryText" Grid.Column="1" Text="有效转换任务 0" /><TextBlock x:Name="ImportSummaryText" Grid.Column="2" HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="总数 0  有效 0  读取失败 0  不支持 0  重复 0" /></Grid>
+                <CommandBar Grid.Row="2" DefaultLabelPosition="Right"><AppBarButton TabIndex="3" Label="全选" Click="OnSelectAllClick"><AppBarButton.Icon><ImageIcon Source="ms-appx:///Assets/Icons/reicon-select-all-filled.svg" /></AppBarButton.Icon></AppBarButton><AppBarButton TabIndex="4" Label="清除选择" Click="OnClearSelectionClick"><AppBarButton.Icon><ImageIcon Source="ms-appx:///Assets/Icons/reicon-clear-filled.svg" /></AppBarButton.Icon></AppBarButton><AppBarButton TabIndex="5" Label="从列表移除" Click="OnDeleteSelectedClick" /></CommandBar>
+                <Grid Grid.Row="3">
+                    <ListView x:Name="AssetList" AutomationProperties.Name="视频素材列表" TabIndex="6" ItemsSource="{x:Bind Assets}" SelectionMode="Multiple" IsMultiSelectCheckBoxEnabled="True" SelectionChanged="OnAssetSelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid MinHeight="104" Padding="8" ColumnSpacing="14">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="112" /><ColumnDefinition Width="1.1*" /><ColumnDefinition Width="1.4*" /><ColumnDefinition Width="0.8*" /></Grid.ColumnDefinitions>
+                                    <Border Width="112" Height="76" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="7">
+                                        <Grid>
+                                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                                            <Border Margin="5" Padding="6,2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#CC090D15" CornerRadius="5">
+                                                <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="White" Text="{Binding DurationText}" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4"><TextBlock FontWeight="SemiBold" Text="{Binding FileName}" TextTrimming="CharacterEllipsis" /><TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding ReadStatus}" /><TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding SourceSummary}" TextTrimming="CharacterEllipsis" /></StackPanel>
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="4"><TextBlock FontWeight="SemiBold" Text="输出" /><TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding OutputSummary}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxLines="2" /></StackPanel>
+                                    <StackPanel Grid.Column="3" VerticalAlignment="Center" Spacing="4"><TextBlock FontWeight="SemiBold" Text="输出大小" /><TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{Binding EstimateSummary}" TextWrapping="Wrap" /></StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel x:Name="EmptyStateText" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8"><FontIcon HorizontalAlignment="Center" FontSize="32" Foreground="{ThemeResource TextFillColorTertiaryBrush}" Glyph="&#xE714;" /><TextBlock HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="还没有视频" /><TextBlock HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="选择文件，或直接拖放到此窗口" /></StackPanel>
+                </Grid>
+            </Grid>
+            <Grid x:Name="SettingsPanel" Grid.Column="1" Background="{StaticResource MixFrameGlassBrush}" BorderThickness="0" CornerRadius="14" Padding="14" RowSpacing="12">
+                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                <Grid><TextBlock Style="{StaticResource SectionTitleTextStyle}" Text="转换设置" /><Button x:Name="PresetButton" AutomationProperties.Name="预设" HorizontalAlignment="Right" MinHeight="30" Padding="10,4" Content="预设 +" Click="OnPresetClick" /></Grid>
+                <ScrollViewer x:Name="SettingsScrollViewer" Grid.Row="1" Padding="0,0,14,0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="SettingsFormPanel" Spacing="10">
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="全部有效视频已有默认动态 WebP 输出" />
+                        <TextBlock FontWeight="SemiBold" Text="输出格式" />
+                        <ComboBox x:Name="FormatBox" AutomationProperties.Name="输出格式" HorizontalAlignment="Stretch" IsEnabled="False" SelectionChanged="OnFormatChanged"><ComboBoxItem Content="动态 WebP" /><ComboBoxItem x:Name="Mp4FormatItem" Content="MP4" /><ComboBoxItem x:Name="GifFormatItem" Content="GIF" /><ComboBoxItem x:Name="WebMFormatItem" Content="WebM" /></ComboBox>
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <StackPanel Spacing="6"><TextBlock FontWeight="SemiBold" Text="尺寸模式" /><ComboBox x:Name="SizeModeBox" AutomationProperties.Name="尺寸模式" HorizontalAlignment="Stretch" IsEnabled="False" SelectionChanged="OnSizeModeChanged"><ComboBoxItem Content="原尺寸" /><ComboBoxItem Content="指定宽度，高度等比" /></ComboBox></StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="6"><TextBlock FontWeight="SemiBold" Text="宽度 px" /><NumberBox x:Name="WidthBox" AutomationProperties.Name="宽度（像素）" Height="40" Margin="0,-4,0,0" HorizontalAlignment="Stretch" IsEnabled="False" Minimum="1" Maximum="16384" SpinButtonPlacementMode="Hidden" Loaded="OnNumberBoxLoaded" ValueChanged="OnWidthChanged" /></StackPanel>
+                        </Grid>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <StackPanel Spacing="6"><TextBlock FontWeight="SemiBold" Text="帧率 fps" /><NumberBox x:Name="FpsBox" AutomationProperties.Name="帧率（fps）" HorizontalAlignment="Stretch" IsEnabled="False" Minimum="1" Maximum="120" SpinButtonPlacementMode="Hidden" Loaded="OnNumberBoxLoaded" ValueChanged="OnFpsChanged" /></StackPanel>
+                            <StackPanel x:Name="QualityField" Grid.Column="1" Spacing="6"><TextBlock FontWeight="SemiBold" Text="质量" /><NumberBox x:Name="QualityBox" AutomationProperties.Name="质量" HorizontalAlignment="Stretch" IsEnabled="False" Minimum="1" Maximum="100" SpinButtonPlacementMode="Hidden" Loaded="OnNumberBoxLoaded" ValueChanged="OnQualityChanged" /></StackPanel>
+                            <StackPanel x:Name="CompressionField" Grid.Column="2" Spacing="6"><TextBlock FontWeight="SemiBold" Text="压缩等级" /><NumberBox x:Name="CompressionBox" AutomationProperties.Name="压缩等级" HorizontalAlignment="Stretch" IsEnabled="False" Minimum="0" Maximum="6" SpinButtonPlacementMode="Hidden" Loaded="OnNumberBoxLoaded" ValueChanged="OnCompressionChanged" /></StackPanel>
+                        </Grid>
+                        <TextBlock FontWeight="SemiBold" Text="文件名" /><TextBox x:Name="FileNameBox" AutomationProperties.Name="文件名" IsEnabled="False" PlaceholderText="默认按原文件名生成" TextChanged="OnFileNameChanged" />
+                        <TextBlock FontWeight="SemiBold" Text="输出位置" />
+                        <Grid ColumnSpacing="8"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions><TextBox x:Name="OutputLocationBox" AutomationProperties.Name="输出位置" IsEnabled="False" IsReadOnly="True" IsTabStop="False" PlaceholderText="选择输出文件夹" /><Button x:Name="ChooseOutputLocationButton" AutomationProperties.Name="选择输出文件夹" Grid.Column="1" IsEnabled="False" Content="选择…" Click="OnOutputLocationClick" /></Grid>
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel x:Name="SettingsActionsPanel" Grid.Row="2" Spacing="10"><Button x:Name="ResetSelectedButton" IsEnabled="False" HorizontalAlignment="Stretch" Content="恢复所选为默认" Click="OnResetSelectedClick" /><Button x:Name="ExportButton" IsEnabled="False" HorizontalAlignment="Stretch" Content="导出全部有效输出" Style="{StaticResource AccentButtonStyle}" Click="OnExportClick" /><Grid ColumnSpacing="8"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions><Button x:Name="CancelExportButton" IsEnabled="False" HorizontalAlignment="Stretch" Content="取消导出" Click="OnCancelExportClick" /><Button x:Name="OpenOutputButton" Grid.Column="1" IsEnabled="False" HorizontalAlignment="Stretch" Content="打开输出文件夹" Click="OnOpenOutputClick" /><Button x:Name="LocateFailureButton" Grid.Column="2" IsEnabled="False" HorizontalAlignment="Stretch" Content="定位失败项" Click="OnLocateFailureClick" /></Grid></StackPanel>
+                <InfoBar x:Name="StatusBar" Grid.Row="3" IsOpen="True" IsClosable="False" Message="导入后全部使用默认动态 WebP 输出。选择视频后，右侧改动只写入当前选择。" Severity="Informational" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

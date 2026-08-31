@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MixFrame (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MixFrame (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

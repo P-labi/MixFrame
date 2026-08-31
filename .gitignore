@@ -1,0 +1,27 @@
+# Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Release packages
+dist/
+*.zip
+
+# Local third-party runtime bundles
+ffmpeg-*-essentials_build/
+
+# User and machine files
+.vs/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+Thumbs.db
+Desktop.ini

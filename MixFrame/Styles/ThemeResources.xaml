@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Thickness x:Key="PagePadding">18,10,18,16</Thickness>
+    <Thickness x:Key="SurfacePadding">14</Thickness>
+    <CornerRadius x:Key="SurfaceCornerRadius">12</CornerRadius>
+    <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
+
+    <!-- MixFrame liquid-glass palette. Primary accent: RGB(70,143,252). -->
+    <SolidColorBrush x:Key="MixFrameCanvasBrush" Color="#FF090D15" />
+    <SolidColorBrush x:Key="MixFrameSurfaceBrush" Color="#EA111722" />
+    <SolidColorBrush x:Key="MixFrameSurfaceRaisedBrush" Color="#B818202C" />
+    <SolidColorBrush x:Key="MixFrameGlassBorderBrush" Color="#3DFFFFFF" />
+    <SolidColorBrush x:Key="MixFrameAccentBrush" Color="#FF468FFC" />
+    <SolidColorBrush x:Key="MixFrameAccentSoftBrush" Color="#24468FFC" />
+    <SolidColorBrush x:Key="MixFrameAccentBorderBrush" Color="#70468FFC" />
+    <SolidColorBrush x:Key="MixFrameTextPrimaryBrush" Color="#FFF1F5FB" />
+    <SolidColorBrush x:Key="MixFrameTextSecondaryBrush" Color="#FFABB6C7" />
+    <SolidColorBrush x:Key="MixFrameGlassBrush" Color="#EE171E2A" />
+
+    <!-- Override WinUI accent hooks so controls do not inherit the user's OS accent. -->
+    <SolidColorBrush x:Key="AccentFillColorDefaultBrush" Color="#FF468FFC" />
+    <SolidColorBrush x:Key="AccentFillColorSecondaryBrush" Color="#FF5B9BFC" />
+    <SolidColorBrush x:Key="AccentFillColorTertiaryBrush" Color="#FF347EEB" />
+    <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush" Color="#FF468FFC" />
+    <SolidColorBrush x:Key="AccentTextFillColorSecondaryBrush" Color="#FF75ABFC" />
+    <SolidColorBrush x:Key="FocusVisualPrimaryBrush" Color="#FF468FFC" />
+
+    <!-- WinUI templates resolve these control-level resources before the generic accent brushes. -->
+    <StaticResource x:Key="AccentButtonBackground" ResourceKey="MixFrameAccentBrush" />
+    <StaticResource x:Key="AccentButtonBackgroundPointerOver" ResourceKey="AccentFillColorSecondaryBrush" />
+    <StaticResource x:Key="AccentButtonBackgroundPressed" ResourceKey="AccentFillColorTertiaryBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundFillChecked" ResourceKey="MixFrameAccentBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundFillCheckedPointerOver" ResourceKey="AccentFillColorSecondaryBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundFillCheckedPressed" ResourceKey="AccentFillColorTertiaryBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundStrokeChecked" ResourceKey="MixFrameAccentBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundStrokeCheckedPointerOver" ResourceKey="AccentFillColorSecondaryBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundStrokeCheckedPressed" ResourceKey="AccentFillColorTertiaryBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundFillIndeterminate" ResourceKey="MixFrameAccentBrush" />
+    <StaticResource x:Key="CheckBoxCheckBackgroundStrokeIndeterminate" ResourceKey="MixFrameAccentBrush" />
+    <StaticResource x:Key="ListViewItemCheckBoxSelectedBrush" ResourceKey="MixFrameAccentBrush" />
+    <StaticResource x:Key="ListViewItemCheckBoxSelectedPointerOverBrush" ResourceKey="AccentFillColorSecondaryBrush" />
+    <StaticResource x:Key="ListViewItemCheckBoxSelectedPressedBrush" ResourceKey="AccentFillColorTertiaryBrush" />
+
+    <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPointerOver" Color="#1FFFFFFF" />
+    <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="#24FFFFFF" />
+    <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="#FF468FFC" />
+    <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="#FF468FFC" />
+    <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPressed" Color="#FF468FFC" />
+    <SolidColorBrush x:Key="ButtonBackground" Color="#12FFFFFF" />
+    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#1FFFFFFF" />
+    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#24468FFC" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#3DFFFFFF" />
+    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#80468FFC" />
+
+    <Style x:Key="PageEyebrowTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{StaticResource MixFrameAccentBrush}" />
+    </Style>
+
+    <Style x:Key="SectionTitleTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource MixFrameTextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="FieldLabelTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource MixFrameTextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="SurfaceStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource MixFrameSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MixFrameGlassBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource SurfaceCornerRadius}" />
+    </Style>
+
+    <Style x:Key="DropZoneStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource MixFrameSurfaceRaisedBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="14" />
+    </Style>
+
+    <Style x:Key="ScopeBadgeStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource MixFrameAccentSoftBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MixFrameAccentBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="9,4" />
+    </Style>
+
+    <Style x:Key="FullWidthControlStyle" TargetType="Control">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+</ResourceDictionary>
